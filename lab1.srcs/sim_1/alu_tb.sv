@@ -61,6 +61,21 @@ module alu_tb();
         #10;
         assert (res === ~(op1^op2)) else $finish;
         $display("XNOR: %d", res);
+        //Left Shift
+        op1 = 4'b0011; op2 = 4'b0010; control = 3'b101;
+        #10;
+        assert (res === (op1 << op2)) else $finish;
+        $display("LEFT_SHIFT: %d", res);
+        //Right Shift
+        op1 = 4'b1100; op2 = 4'b0010; control = 3'b110;
+        #10;
+        assert (res === (op1 >> op2)) else $finish;
+        $display("RIGHT_SHIFT: %d", res);
+        //RIGHT Shift signed
+        op1 = 4'b1100; op2 = 4'b0010; control = 3'b111;
+        #10;
+        assert (res === (op1 >>> op2)) else $finish;
+        $display("RIGHT_SHIFT_SIGNED: %d", res);
         
     end
     
