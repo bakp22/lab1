@@ -21,12 +21,14 @@
 
 
 module alu_tb();
-    reg op1;
-    reg op2;
-    reg control;
-    wire res;
 
-    alu my_alu(
+    parameter OP_WIDTH = 4;
+    reg [OP_WIDTH-1:0] op1;
+    reg [OP_WIDTH-1:0] op2;
+    reg control;
+    wire [OP_WIDTH-1:0] res;
+
+    alu #(.OP_WIDTH(OP_WIDTH)) my_alu(
         .op1(op1),
         .op2(op2),
         .control(control),
@@ -42,7 +44,7 @@ module alu_tb();
 
         op1 = 0; op2 = 1; control = 0; 
         #10;
-        assert (res == ~op1) else $finish;
+        assert (res == ~op1) else $error("test 1 failed");
         $display("NOT: %d -> %d", res, op1);
         
         op1 = 1; op2 = 0; control = 0;
@@ -79,4 +81,3 @@ module alu_tb();
     end
     
 endmodule
-
