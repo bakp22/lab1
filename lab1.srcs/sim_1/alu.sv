@@ -36,6 +36,9 @@ module alu #(parameter OP_WIDTH = 4)(
                  (control == 4'b0111) ? $signed(op1) >>> op2 : //signed right shift
                  (control == 4'b1111) ? op1 - op2 : //SUB
                  (control == 4'b1000) ? op1 + op2 : //ADD
+                 (control == 4'b1100) ? op1 < op2 : //less than
+                 (control == 4'b1101) ? op1 > op2 : //greater than
+                 (control == 4'b1110) ? op1 == op2 : //equals to 
                  {OP_WIDTH{1'b0}};  
      
 endmodule
