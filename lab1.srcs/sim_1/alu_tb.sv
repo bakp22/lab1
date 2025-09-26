@@ -25,7 +25,7 @@ module alu_tb();
     parameter OP_WIDTH = 4;
     reg [OP_WIDTH-1:0] op1;
     reg [OP_WIDTH-1:0] op2;
-    reg control;
+    reg [2:0] control;
     wire [OP_WIDTH-1:0] res;
 
     alu #(.OP_WIDTH(OP_WIDTH)) my_alu(
@@ -36,47 +36,31 @@ module alu_tb();
     );
 
     initial begin
-        // Test Case #1 - NOT tests
-        op1 = 0; op2 = 0; control = 0; 
+        //NOT
+        op1 = 4'b0000; control = 3'b000; 
         #10; // time for res to update
-        assert (res == ~op1) else $finish;
+        assert (res === ~op1) else $finish;
         $display("NOT: %d -> %d", res, op1);
-
-        op1 = 0; op2 = 1; control = 0; 
+        //XOR
+        op1 = 4'b0001; op2 = 4'b0000; control = 3'b001;
+        #10; 
+        assert (res === op1 ^ op2) else $finish;
+        $display("XOR: %d -> %d", res, op1);
+        //AND
+        op1 = 4'b0001; op2 = 4'b0001; control = 3'b010; 
+        #10; 
+        assert (res === op1 & op2) else $finish;
+        $display("AND: %d", res);
+        //OR
+        op1 = 4'b0001; op2 = 4'b0001; control = 3'b011;
         #10;
-        assert (res == ~op1) else $error("test 1 failed");
-        $display("NOT: %d -> %d", res, op1);
-        
-        op1 = 1; op2 = 0; control = 0;
-        #10; 
-        assert (res == ~op1) else $finish;
-        $display("NOT: %d -> %d", res, op1);
-        
-        op1 = 1; op2 = 1; control = 0; 
-        #10; 
-        assert (res == ~op1) else $finish;
-        $display("NOT: %d -> %d", res, op1);
-        
-        //Test Case #2 - XOR tests
-        op1 = 0; op2 = 0; control = 1; 
-        #10; // time for res to update
-        assert (res == op1 ^ op2) else $finish;
-        $display("XOR: %d -> %d", res, op1);
-
-        op1 = 0; op2 = 1; control = 1; 
+        assert (res === op1 | op2) else $finish;
+        $display("OR:  %d", res);
+        //XNOR
+        op1 = 4'b0001; op2 = 4'b0001; control = 3'b100;
         #10;
-        assert (res == op1 ^ op2) else $finish;
-        $display("XOR: %d -> %d", res, op1);
-        
-        op1 = 1; op2 = 0; control = 1;
-        #10; 
-        assert (res == op1 ^ op2) else $finish;
-        $display("XOR: %d -> %d", res, op1);
-        
-        op1 = 1; op2 = 1; control = 1; 
-        #10; 
-        assert (res == op1 ^ op2) else $finish;
-        $display("XOR: %d -> %d", res, op1);
+        assert (res === ~(op1^op2)) else $finish;
+        $display("XNOR: %d", res);
         
     end
     
