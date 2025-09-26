@@ -20,17 +20,63 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module alu_tb(norOut, A);
-    output logic norOut;
-    input logic A;
+module alu_tb();
+    reg op1;
+    reg op2;
+    reg control;
+    wire res;
+
+    alu my_alu(
+        .op1(op1),
+        .op2(op2),
+        .control(control),
+        .res(res)
+    );
 
     initial begin
-        A <= 1; #10;
-        A <= 0;
-        $stop();
+        // Test Case #1 - NOT tests
+        op1 = 0; op2 = 0; control = 0; 
+        #10; // time for res to update
+        assert (res == ~op1) else $finish;
+        $display("NOT: %d -> %d", res, op1);
+
+        op1 = 0; op2 = 1; control = 0; 
+        #10;
+        assert (res == ~op1) else $finish;
+        $display("NOT: %d -> %d", res, op1);
+        
+        op1 = 1; op2 = 0; control = 0;
+        #10; 
+        assert (res == ~op1) else $finish;
+        $display("NOT: %d -> %d", res, op1);
+        
+        op1 = 1; op2 = 1; control = 0; 
+        #10; 
+        assert (res == ~op1) else $finish;
+        $display("NOT: %d -> %d", res, op1);
+        
+        //Test Case #2 - XOR tests
+        op1 = 0; op2 = 0; control = 1; 
+        #10; // time for res to update
+        assert (res == op1 ^ op2) else $finish;
+        $display("XOR: %d -> %d", res, op1);
+
+        op1 = 0; op2 = 1; control = 1; 
+        #10;
+        assert (res == op1 ^ op2) else $finish;
+        $display("XOR: %d -> %d", res, op1);
+        
+        op1 = 1; op2 = 0; control = 1;
+        #10; 
+        assert (res == op1 ^ op2) else $finish;
+        $display("XOR: %d -> %d", res, op1);
+        
+        op1 = 1; op2 = 1; control = 1; 
+        #10; 
+        assert (res == op1 ^ op2) else $finish;
+        $display("XOR: %d -> %d", res, op1);
+        
     end
     
-    alu dut (.norOut, .A)
-
 endmodule
-Engineer
+
