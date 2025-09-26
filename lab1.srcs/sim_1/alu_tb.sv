@@ -86,6 +86,21 @@ module alu_tb();
         #10;
         assert (res === (op1+op2)) else $finish;
         $display("ADD: %d", res);
+        //less than
+        op1 = 4'b0001; op2 = 4'b0010; control = 4'b1100;
+        #10;
+        assert (res === (op1<op2)) else $finish;
+        $display("LESS THAN: %d", res);
+        //greater than
+        op1 = 4'b0001; op2 = 4'b0010; control = 4'b1101;
+        #10;
+        assert (res === (op1>op2)) else $finish;
+        $display("GREATER THAN: %d", res);
+        //equal to
+        op1 = 4'b0001; op2 = 4'b0010; control = 4'b1110;
+        #10;
+        assert (res === (op1==op2)) else $finish;
+        $display("EQUAL TO: %d", res);
         
     end
     
