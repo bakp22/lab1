@@ -23,17 +23,19 @@
 module alu #(parameter OP_WIDTH = 4)(
     input wire [OP_WIDTH-1:0] op1, //input
     input wire [OP_WIDTH-1:0] op2,
-    input wire [2:0] control, 
+    input wire [3:0] control, 
     output wire [OP_WIDTH-1:0] res //output
 );
-    assign res = (control == 3'b000) ? ~op1 : //NOT
-                 (control == 3'b001) ? (op1^op2) : //XOR
-                 (control == 3'b010) ? (op1 & op2) : //AND
-                 (control == 3'b011) ? (op1 | op2) : //OR
-                 (control == 3'b100) ? ~(op1^op2) : //XNOR
-                 (control == 3'b101) ? op1 << op2 : //left shift unsigned or signed
-                 (control == 3'b110) ? op1 >> op2 : //right shift unsigned 
-                 (control == 3'b111) ? $signed(op1) >>> op2 : //signed right shift
+    assign res = (control == 4'b0000) ? ~op1 : //NOT
+                 (control == 4'b0001) ? (op1^op2) : //XOR
+                 (control == 4'b0010) ? (op1 & op2) : //AND
+                 (control == 4'b0011) ? (op1 | op2) : //OR
+                 (control == 4'b0100) ? ~(op1^op2) : //XNOR
+                 (control == 4'b0101) ? op1 << op2 : //left shift unsigned or signed
+                 (control == 4'b0110) ? op1 >> op2 : //right shift unsigned 
+                 (control == 4'b0111) ? $signed(op1) >>> op2 : //signed right shift
+                 (control == 4'b1111) ? op1 - op2 : //SUB
+                 (control == 4'b1000) ? op1 + op2 : //ADD
                  {OP_WIDTH{1'b0}};  
      
 endmodule
