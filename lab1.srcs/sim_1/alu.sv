@@ -22,10 +22,11 @@
 
 module alu(
     input wire op1, //input
+    input wire op2,
+    input wire control, 
     output wire res //output
 );
-    
-    assign res = ~op1; // res(the result) equals the negation of op1
+    assign res = (control == 0) ? op1 : (op1^op2);
      
 endmodule
 
