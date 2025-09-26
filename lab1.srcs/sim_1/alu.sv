@@ -23,10 +23,15 @@
 module alu #(parameter OP_WIDTH = 4)(
     input wire [OP_WIDTH-1:0] op1, //input
     input wire [OP_WIDTH-1:0] op2,
-    input wire control, 
+    input wire [2:0] control, 
     output wire [OP_WIDTH-1:0] res //output
 );
-    assign res = (control == 0) ? ~op1 : (op1^op2);
+    assign res = (control == 3'b000) ? ~op1 : //NOT
+                 (control == 3'b001) ? (op1^op2) : //XOR
+                 (control == 3'b010) ? (op1 & op2) : //AND
+                 (control == 3'b011) ? (op1 | op2) : //OR
+                 (control == 3'b100) ? ~(op1^op2) : //XNOR
+                 {OP_WIDTH{1'b0}};  
      
 endmodule
 
