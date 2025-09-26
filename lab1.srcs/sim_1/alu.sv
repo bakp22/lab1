@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module alu(
-    input wire op1, //input
-    input wire op2,
+module alu #(parameter OP_WIDTH = 4)(
+    input wire [OP_WIDTH-1:0] op1, //input
+    input wire [OP_WIDTH-1:0] op2,
     input wire control, 
-    output wire res //output
+    output wire [OP_WIDTH-1:0] res //output
 );
     assign res = (control == 0) ? ~op1 : (op1^op2);
      
