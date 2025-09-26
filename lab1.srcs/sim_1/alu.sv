@@ -31,6 +31,9 @@ module alu #(parameter OP_WIDTH = 4)(
                  (control == 3'b010) ? (op1 & op2) : //AND
                  (control == 3'b011) ? (op1 | op2) : //OR
                  (control == 3'b100) ? ~(op1^op2) : //XNOR
+                 (control == 3'b101) ? op1 << op2 : //left shift unsigned or signed
+                 (control == 3'b110) ? op1 >> op2 : //right shift unsigned 
+                 (control == 3'b111) ? $signed(op1) >>> op2 : //signed right shift
                  {OP_WIDTH{1'b0}};  
      
 endmodule
