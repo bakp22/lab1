@@ -26,7 +26,7 @@ module alu(
     input wire control, 
     output wire res //output
 );
-    assign res = (control == 0) ? op1 : (op1^op2);
+    assign res = (control == 0) ? ~op1 : (op1^op2);
      
 endmodule
 
